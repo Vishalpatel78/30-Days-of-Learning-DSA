@@ -1,0 +1,36 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Function to find the minimum number of insertions needed to convert str[l...h] into a palindrome
+int findMinInsertions(string str, int l, int h, vector<vector<int>>& memo) {
+    // Base Cases
+    if (l > h) return INT_MAX;
+    if (l == h) return 0;
+    if (l == h - 1) return (str[l] == str[h]) ? 0 : 1;
+
+    // If the result is already calculated, return it
+    if (memo[l][h] != -1) return memo[l][h];
+
+    // If characters are the same, no insertion needed
+    if (str[l] == str[h])
+        memo[l][h] = findMinInsertions(str, l + 1, h - 1, memo);
+    else
+        memo[l][h] = min(findMinInsertions(str, l, h - 1, memo), findMinInsertions(str, l + 1, h, memo)) + 1;
+
+    return memo[l][h];
+}
+
+int countMin(string str) {
+    int n = str.length();
+    vector<vector<int>> memo(n, vector<int>(n, -1));
+    return findMinInsertions(str, 0, n - 1, memo);
+}
+
+int main() {
+    string str = "abcd";
+    cout << countMin(str) << endl;  // Output: 3
+    return 0;
+}
