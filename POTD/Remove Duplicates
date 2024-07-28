@@ -1,0 +1,15 @@
+ 
+
+string removeDups(string str) {
+    string result = "";
+    bool seen[256] = { false };  // Boolean array to store the seen characters 
+
+    for (char c : str) {
+        if (!seen[c]) {
+            seen[c] = true;
+            result += c;
+        }
+    }
+
+    return result;
+}
