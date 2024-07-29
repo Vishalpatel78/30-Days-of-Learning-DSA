@@ -1,0 +1,33 @@
+// User function template for C++
+class Solution {
+  public:
+    int rowWithMax1s(vector<vector<int> > arr) {
+        // code here
+        
+    int maxRowIndex = -1;
+    int max1sCount = 0;
+    int rows = arr.size();
+    int cols = arr[0].size();
+
+    for (int i = 0; i < rows; i++) {
+        // Use binary search to find the first occurrence of 1 in the current row
+        int low = 0, high = cols - 1;
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[i][mid] == 1) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        int count1s = cols - low;
+        if (count1s > max1sCount) {
+            max1sCount = count1s;
+            maxRowIndex = i;
+        }
+    }
+
+    return maxRowIndex;
+}
+    
+};
