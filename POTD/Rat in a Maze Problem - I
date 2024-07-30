@@ -1,0 +1,90 @@
+//{ Driver Code Starts
+// Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+// User function template for C++
+
+class Solution {
+  public:
+    void findPaths(vector<vector<int>> &mat, int x, int y, int n, string path, vector<string> &result, vector<vector<bool>> &visited) {
+    
+    if (x == n - 1 && y == n - 1) {
+        result.push_back(path);
+        return;
+    }
+    
+ 
+    visited[x][y] = true;
+    
+    
+    if (x + 1 < n && mat[x + 1][y] == 1 && !visited[x + 1][y]) {
+        findPaths(mat, x + 1, y, n, path + 'D', result, visited);
+    }
+    
+   
+    if (y + 1 < n && mat[x][y + 1] == 1 && !visited[x][y + 1]) {
+        findPaths(mat, x, y + 1, n, path + 'R', result, visited);
+    }
+    
+   
+    if (x - 1 >= 0 && mat[x - 1][y] == 1 && !visited[x - 1][y]) {
+        findPaths(mat, x - 1, y, n, path + 'U', result, visited);
+    }
+    
+    
+    if (y - 1 >= 0 && mat[x][y - 1] == 1 && !visited[x][y - 1]) {
+        findPaths(mat, x, y - 1, n, path + 'L', result, visited);
+    }
+    
+     
+    visited[x][y] = false;
+}
+
+vector<string> findPath(vector<vector<int>> &mat) {
+    vector<string> result;
+    int n = mat.size();
+    
+    if (mat[0][0] == 0) {
+        return result;  
+    }
+    
+    vector<vector<bool>> visited(n, vector<bool>(n, false));
+    findPaths(mat, 0, 0, n, "", result, visited);
+    
+    sort(result.begin(), result.end()); 
+    return result;
+}
+};
+
+
+//{ Driver Code Starts.
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        vector<vector<int>> m(n, vector<int>(n, 0));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                cin >> m[i][j];
+            }
+        }
+        Solution obj;
+        vector<string> result = obj.findPath(m);
+        sort(result.begin(), result.end());
+        if (result.size() == 0)
+            cout << -1;
+        else
+            for (int i = 0; i < result.size(); i++)
+                cout << result[i] << " ";
+        cout << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
