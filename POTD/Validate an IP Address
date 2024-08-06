@@ -1,0 +1,53 @@
+class Solution {
+  public:
+    bool isValidSegment(const string& segment) {
+    // Check if the segment is empty or too long
+    if (segment.empty() || segment.size() > 3) {
+        return false;
+    }
+
+    // Check for leading zeros (valid segment "0" is an exception)
+    if (segment.size() > 1 && segment[0] == '0') {
+        return false;
+    }
+
+    // Check if the segment contains only digits
+    for (char ch : segment) {
+        if (!isdigit(ch)) {
+            return false;
+        }
+    }
+
+    // Convert the segment to an integer and check the range
+    int num = stoi(segment);
+    if (num < 0 || num > 255) {
+        return false;
+    }
+
+    return true;
+}
+
+int isValid(string str) {
+    vector<string> segments;
+    string segment;
+    istringstream iss(str);
+
+    // Split the string by '.'
+    while (getline(iss, segment, '.')) {
+        segments.push_back(segment);
+    }
+
+    // Check if we have exactly 4 segments
+    if (segments.size() != 4) {
+        return 0; // false
+    }
+
+    // Validate each segment
+    for (const string& seg : segments) {
+        if (!isValidSegment(seg)) {
+            return 0; // false
+        }
+    }
+
+    return 1; // true
+}
