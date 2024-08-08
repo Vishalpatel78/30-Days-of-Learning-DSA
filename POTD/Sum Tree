@@ -1,0 +1,39 @@
+/*  Tree node
+struct Node
+{
+    int data;
+    Node* left, * right;
+}; */
+
+// Should return true if tree is Sum Tree, else false
+class Solution {
+  public:
+    bool isSumTree(Node* root, int &sum) {
+    // Base cases
+    if (!root) {
+        sum = 0;
+        return true;
+    }
+    if (!root->left && !root->right) {
+        sum = root->data;
+        return true;
+    }
+
+    // Initialize sums of left and right subtrees
+    int leftSum = 0, rightSum = 0;
+
+    // Recursively check left and right subtrees
+    if (!isSumTree(root->left, leftSum) || !isSumTree(root->right, rightSum))
+        return false;
+
+    // Check the sum of the left and right subtrees with the root's data
+    sum = leftSum + rightSum + root->data;
+    return (root->data == leftSum + rightSum);
+}
+
+// Wrapper function to call the utility function
+bool isSumTree(Node* root) {
+    int sum = 0;
+    return isSumTree(root, sum);
+}
+};
