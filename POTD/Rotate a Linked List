@@ -1,0 +1,40 @@
+class Solution {
+  public:
+     
+    Node* rotate(Node* head, int k) {
+        
+        if (!head || k == 0)
+        return head;
+
+    Node* current = head;
+
+     
+    int count = 1;
+    while (count < k && current != nullptr) {
+        current = current->next;
+        count++;
+    }
+
+     
+    if (!current || !current->next)
+        return head;
+
+     
+    Node* kthNode = current;
+
+    
+    while (current->next != nullptr)
+        current = current->next;
+
+    
+    current->next = head;
+
+     
+    head = kthNode->next;
+
+    
+    kthNode->next = nullptr;
+
+    return head;
+    }
+};
