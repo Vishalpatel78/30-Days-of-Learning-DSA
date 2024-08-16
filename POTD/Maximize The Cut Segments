@@ -1,0 +1,72 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+   
+   int maximizeTheCutsHelper(int n, int x, int y, int z, vector<int>& memo) {
+    
+    if (n == 0)
+        return 0;
+    
+     
+    if (n < 0)
+        return -1;
+    
+     
+    if (memo[n] != -1)
+        return memo[n];
+    
+ 
+    int cutX = maximizeTheCutsHelper(n - x, x, y, z, memo);
+    int cutY = maximizeTheCutsHelper(n - y, x, y, z, memo);
+    int cutZ = maximizeTheCutsHelper(n - z, x, y, z, memo);
+    
+   
+    int maxCuts = max({cutX, cutY, cutZ});
+    
+   
+    memo[n] = (maxCuts == -1) ? -1 : maxCuts + 1;
+    return memo[n];
+}
+
+int maximizeTheCuts(int n, int x, int y, int z) {
+    
+    vector<int> memo(n + 1, -1);
+    
+    int result = maximizeTheCutsHelper(n, x, y, z, memo);
+    
+  
+    return (result == -1) ? 0 : result;
+}
+};
+
+//{ Driver Code Starts.
+int main() {
+    
+    //taking testcases
+    int t;
+    cin >> t;
+    while(t--)
+    {
+        //taking length of line segment
+        int n;
+        cin >> n;
+        
+        //taking types of segments
+        int x,y,z;
+        cin>>x>>y>>z;
+        Solution obj;
+        //calling function maximizeTheCuts()
+        cout<<obj.maximizeTheCuts(n,x,y,z)<<endl;
+
+    }
+
+	return 0;
+}
+// } Driver Code Ends
